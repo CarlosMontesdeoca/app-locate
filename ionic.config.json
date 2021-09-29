@@ -1,0 +1,7 @@
+{
+  "name": "TallerGeolocation",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
