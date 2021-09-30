@@ -3,8 +3,8 @@
  video aplicacion funcional 
  https://www.youtube.com/watch?v=sugeHu4Di48
 
- para encontrar la apk se encuentra a\app-locate\android\app\build\outputs\apk\debug
-
+ para encontrar la apk se encuentra a app-debug.apk dentro de la reiz del proyecto 
+ 
 Aplicación con ionic que envía longitud y latitud a firevase con ayuda de googlemaps para guardar ubicación actual de un usuario
 
 dentro de service es donde se va a definir los parametros que se enviaran a la base de datos.
