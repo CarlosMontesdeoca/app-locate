@@ -111,7 +111,7 @@ export class HomePage implements OnInit {
   upload(){
     this.x = setInterval(() => { 
       this.ShowCords(); 
-   }, 5*1000);
+   }, 180*1000);
   }
 
   clear(){
