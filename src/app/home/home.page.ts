@@ -1,6 +1,5 @@
 //IMPORTAR LOS MODULOS NECESARIOS PARA LAS FUNCIONES.
-
-import { ConectionService } from '../services/conection.service';
+import { FirebaseService } from '../services/firebase.service';
 
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -25,11 +24,12 @@ export class HomePage implements OnInit {
   location: any;
   placeid: any;
   GoogleAutocomplete: any;
+  x;
  
   constructor(
     private geolocation: Geolocation,
     private nativeGeocoder: NativeGeocoder,
-    private conectionService: ConectionService,   
+    private firebaseService: FirebaseService,   
     public zone: NgZone,
   ) {
     this.GoogleAutocomplete = new google.maps.places.AutocompleteService();
@@ -94,28 +94,13 @@ export class HomePage implements OnInit {
 
   //FUNCION DEL BOTON INFERIOR PARA QUE NOS DIGA LAS COORDENADAS DEL LUGAR EN EL QUE POSICIONAMOS EL PIN.
   ShowCords(){
-    alert('Las cordenadas de su ubicación son:\nLatitud: ' +this.lat+'\nLongitud: '+this.long );
-    this.conectionService.registerGeo(this.lat, this.long)
+    console.log('Sus cordenadas son: Latitud: ' +this.lat+'||| Longitud: '+this.long );
+    this.firebaseService.create(this.lat, this.long)
     .then(()=>{
-      alert('Coordenadas guardadas correctamente');
+      console.log('Coordenadas guardadas correctamente');
     }).catch((err)=>{
       console.log(err);
     });
-  }
-  
-  //FUNCION QUE LLAMAMOS DESDE EL ITEM DE LA LISTA.
-  SelectSearchResult(item) {
-    //AQUI PONDREMOS LO QUE QUERAMOS QUE PASE CON EL PLACE ESCOGIDO, GUARDARLO, SUBIRLO A FIRESTORE.
-    //HE AÑADIDO UN ALERT PARA VER EL CONTENIDO QUE NOS OFRECE GOOGLE Y GUARDAMOS EL PLACEID PARA UTILIZARLO POSTERIORMENTE SI QUEREMOS.
-    alert(JSON.stringify(item))      
-    this.placeid = item.place_id
-  }
-  
-  
-  //LLAMAMOS A ESTA FUNCION PARA LIMPIAR LA LISTA CUANDO PULSAMOS IONCLEAR.
-  ClearAutocomplete(){
-    this.autocompleteItems = []
-    this.autocomplete.input = ''
   }
  
   //EJEMPLO PARA IR A UN LUGAR DESDE UN LINK EXTERNO, ABRIR GOOGLE MAPS PARA DIRECCIONES. 
@@ -123,4 +108,13 @@ export class HomePage implements OnInit {
     return window.location.href = 'https://www.google.com/maps/search/?api=1&query=Google&query_place_id='+this.placeid;
   }
 
+  upload(){
+    this.x = setInterval(() => { 
+      this.ShowCords(); 
+   }, 5*1000);
+  }
+
+  clear(){
+    clearInterval(this.x);
+  }
 }
